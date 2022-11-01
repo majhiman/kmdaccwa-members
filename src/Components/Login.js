@@ -1,31 +1,46 @@
 import React, { useState } from 'react';
+import { Grid } from '@mui/material';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import Logo from "../Assets/Logo.png";
+import Wallpap from "../Assets/Wallpap.png";
 import TextField from '@mui/material/TextField';
 import { makeStyles } from '@mui/styles';
 import { useNavigate } from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
   card:{
-    marginLeft:"37%",
+    fontFamily:"oregano",
+    position:"absolute",
     color:"#06283D",
-    borderColor:"#06283D !important",
+    width: "230px",
+    height: "450px",
+    right: "442px",
+    bottom: "110px",
+    borderColor:"#e57059 !important",
     borderStyle:"solid"
   },
   field:{
     marginTop:"1.5% !important"
   },
+  Wallpap:{
+    backgroundImage:`url(${Wallpap})`,
+    backgroundRepeat:"no-repeat center center fixed",
+    height:"100vh",
+    width:"100vw",
+    backgroundSize:"cover"
+
+  },
+
   button:{
-    marginTop:"1.5% !important",
-    backgroundColor:"#06283D !important",
+    marginTop:"4vh !important",
+    backgroundColor:"#385b64 !important",
     color:"#DFF6FF !important"
   },
   text:{
-    color:"#06283D !important"
+    color:"#385b64 !important"
   }
 }));
 
@@ -64,17 +79,13 @@ const Login = ({setCheckLogin}) => {
 
   
   return (
-    <div className={classes.background}>
+    <div className={classes.Wallpap}>
+
+  
       <Card sx={{ maxWidth: "25%" ,height:"30%"}} className={classes.card}>
-        <CardMedia
-          component="img"
-          image={Logo}
-          alt="logo"
-        />
         <CardContent>
-          <Typography gutterBottom variant="h5" component="div" className={classes.text}>
-            KMDA Civil Contractors Welfare Association
-          </Typography>
+          <Grid container spacing={1} justify="center" align="left">
+          </Grid>
           <TextField 
             fullWidth 
             label="Username"  
@@ -95,6 +106,7 @@ const Login = ({setCheckLogin}) => {
           </Button>
         </CardContent>
       </Card>
+
     </div>
   )
 }
