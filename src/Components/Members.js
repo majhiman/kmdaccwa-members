@@ -47,7 +47,7 @@ const columns = [
     width: 10,
     renderCell: (index) => index.api.getRowIndex(index.row.id) + 1,
   },
-  { field: 'CompanyName', headerName: 'Company Name', width: 150,align: "left" },
+  { field: 'CompanyName', headerName: 'Company Name', width: 250,align: "left" },
   { field: 'ProprietorName1', headerName: 'Proprietor Name 1', width: 130,align: "left" },
   { field: 'MobileNumber', headerName: 'Mobile Number 1', width: 130,align: "left" },
   { field: 'Address', headerName: 'Address', width: 700,align: "left" },  
@@ -82,7 +82,7 @@ const Members = ({
     const handleSl_no = (dataGridSl_no) =>{
       setId(dataGridSl_no)
     }
-////
+
     //==========Refresh=====
     const handleRefresh = () =>{
       handleSRefresh()

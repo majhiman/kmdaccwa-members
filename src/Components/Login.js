@@ -2,9 +2,7 @@ import React, { useState } from 'react';
 import { Grid } from '@mui/material';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
 import Wallpap from "../Assets/Wallpap.png";
 import TextField from '@mui/material/TextField';
 import { makeStyles } from '@mui/styles';
@@ -15,15 +13,15 @@ const useStyles = makeStyles(theme => ({
     fontFamily:"oregano",
     position:"absolute",
     color:"#06283D",
-    width: "230px",
-    height: "450px",
-    right: "442px",
-    bottom: "110px",
+    width: "15.4%",
+    height: "60%",
+    right: "28.5%",
+    bottom: "10%",
     borderColor:"#e57059 !important",
     borderStyle:"solid"
   },
   field:{
-    marginTop:"1.5% !important"
+    marginTop:"2% !important"
   },
   Wallpap:{
     backgroundImage:`url(${Wallpap})`,
