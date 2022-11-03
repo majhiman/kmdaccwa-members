@@ -70,12 +70,16 @@ const EditeMembers = ({editeOpen,setEditeOpen,addCheck,setAddCheck,id,handleEdit
 
       const editeMember = async (e) =>{
         const newFields = {
+          ProprietorName:{
             ProprietorName2:memberValues.ProprietorName2,
             ProprietorName3:memberValues.ProprietorName3,
-            Address:memberValues.Address,
-            MobileNumber:memberValues.MobileNumber,
+          },            
+          Address:memberValues.Address,
+          MobileNumber:{
+            MobileNumber1:memberValues.MobileNumber,
             MobileNumber2:memberValues.MobileNumber2,
             MobileNumber3:memberValues.MobileNumber3,
+          }            
         }
         const memberDoc = doc(db,"members",id[0]);
             await updateDoc(memberDoc,newFields)

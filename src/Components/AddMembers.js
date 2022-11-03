@@ -94,15 +94,19 @@ const AddMembers = ({addOpen,setAddOpen,addCheck,setAddCheck,handleAddSnackbar})
           addDoc(membersCollectionRef,
             {
               CompanyName:memberValues.CompanyName,
-              ProprietorName1:memberValues.ProprietorName1,
-              ProprietorName2:memberValues.ProprietorName2,
-              ProprietorName3:memberValues.ProprietorName3,
+              ProprietorName: {
+                ProprietorName1:memberValues.ProprietorName1,
+                ProprietorName2:memberValues.ProprietorName2,
+                ProprietorName3:memberValues.ProprietorName3,
+              },              
               Address:memberValues.Address,
-              MobileNumber:memberValues.MobileNumber,
+              MobileNumber: {
+                MobileNumber1:memberValues.MobileNumber,
+                MobileNumber2:memberValues.MobileNumber2,
+                MobileNumber3:memberValues.MobileNumber3,
+              },
               PhotoURL:downloadURL,
-              IsDeleted:0,
-              MobileNumber2:memberValues.MobileNumber2,
-              MobileNumber3:memberValues.MobileNumber3,
+              IsDeleted:0,              
             })
           handleAClose()
           setAddCheck(addCheck+1)

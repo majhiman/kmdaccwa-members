@@ -9,6 +9,7 @@ import AddMembers from './AddMembers';
 import ReplayIcon from '@mui/icons-material/Replay';
 import DeleteMembers from './DeleteMembers';
 import EditeMembers from './EditeMembers';
+import { Typography } from '@mui/material';
 
 const useStyles = makeStyles(theme => ({
   buttongroup:{
@@ -40,29 +41,8 @@ function CustomToolbar() {
     </GridToolbarContainer>
   );
 }
-const columns = [
-  {
-    headerName: 'Sl No', 
-    filterable: false,
-    width: 10,
-    renderCell: (index) => index.api.getRowIndex(index.row.id) + 1,
-  },
-  { field: 'CompanyName', headerName: 'Company Name', width: 250,align: "left" },
-  { field: 'ProprietorName1', headerName: 'Proprietor Name 1', width: 130,align: "left" },
-  { field: 'MobileNumber', headerName: 'Mobile Number 1', width: 130,align: "left" },
-  { field: 'Address', headerName: 'Address', width: 700,align: "left" },  
-  {
-    field: 'PhotoURL',
-    headerName: 'Photo',
-    width: 100,
-    editable: true,
-    renderCell: (params) => <img src={params.value} alt="avt" height="80" width="100"/>, // renderCell will render the component
-  },  
-  { field: 'ProprietorName2', headerName: 'Proprietor Name 2', width: 130,align: "left" },
-  { field: 'ProprietorName3', headerName: 'Proprietor Name 3', width: 130,align: "left" },  
-  { field: 'MobileNumber2', headerName: 'Mobile Number 2', width: 130,align: "left" },
-  { field: 'MobileNumber3', headerName: 'Mobile Number 3', width: 130,align: "left" },
-];
+
+
 
 const Members = ({
   handleAddSnackbar,
@@ -71,12 +51,61 @@ const Members = ({
   handleWarningSnackbar,
   handleSRefresh
 }) => {
+
     const [members,setMembers] = useState([]);
     const membersCollectionRef = collection(db, "members");
     const q = query(membersCollectionRef,where("IsDeleted","==",0))
     const [addCheck,setAddCheck] = useState(0)
     const [refresh,setRefresh] = useState(0)
-
+        
+    const columns = [
+      {
+        headerName: 'Sl No', 
+        filterable: false,
+        width: 100,
+        height:200,
+        renderCell: (index) => index.api.getRowIndex(index.row.id) + 1,
+      },
+      { field: 'CompanyName', headerName: 'Company Name', width: 300,height:200,align: "left" },
+      { 
+        field: 'ProprietorName',
+        headerName: 'Proprietor Name', 
+        height:200,
+        width: 250,
+        align: "left",
+        renderCell:(params) =>(
+          <div>
+            <Typography>{params.value.ProprietorName1}</Typography>
+            <Typography>{params.value.ProprietorName2}</Typography>
+            <Typography>{params.value.ProprietorName3}</Typography>
+          </div>          
+        )
+      },
+      { 
+        field: 'MobileNumber',
+        headerName: 'Mobile Number ', 
+        height:200,
+        width: 200,
+        align: "left",
+        renderCell:(params) =>(
+          <div>
+            <Typography>{params.value.MobileNumber1}</Typography>
+            <Typography>{params.value.MobileNumber2}</Typography>
+            <Typography>{params.value.MobileNumber3}</Typography>
+          </div>          
+        )
+      },
+      { field: 'Address', headerName: 'Address', height:200,width: 700,align: "left" },  
+      {
+        field: 'PhotoURL',
+        headerName: 'Photo',
+        width: 100,
+        height:200,
+        editable: true,
+        renderCell: (params) => <img src={params.value} alt="avt" height="80" width="100"/>, // renderCell will render the component
+      }
+    ];
+    
     //====handleSl_no=========
     const [id,setId] = useState([])
     const handleSl_no = (dataGridSl_no) =>{
@@ -93,13 +122,14 @@ const Members = ({
             const data = await getDocs(q);
             setMembers(data.docs.map((doc)=>({
               ...doc.data(),
-              id:doc.id
-            })));
+              id:doc.id,
+            })));            
         }
-
         getMembers()
+        console.log(members)
         // eslint-disable-next-line react-hooks/exhaustive-deps
     },[addCheck,refresh])
+
     const classes = useStyles();
 
     //=================Add Dialog ==================
@@ -174,7 +204,7 @@ const Members = ({
         columns={columns} 
         rows={members}
         getRowId={(r) => r.id}
-        rowsPerPageOptions={[7,50,100]}
+        rowsPerPageOptions={[7,10,25,50,100]}
         autoHeight
         checkboxSelection
         onSelectionModelChange={
@@ -182,7 +212,7 @@ const Members = ({
           itm => handleSl_no(itm)           
         }
         components={{ Toolbar: CustomToolbar }}
-        style={{color:"#06283D",height: '100%', width: '100%'}}
+        style={{color:"#06283D",height: '100%', width: '100%',whiteSpace: 'pre-line'}}
         sx={{
           ".MuiTablePagination-displayedRows":{
             color:"#06283D"
@@ -203,7 +233,9 @@ const Members = ({
             color:"#06283D"
           },
           '@media print': {
-            '.MuiDataGrid-main': { color: '#06283D',fontSize:'20px' },
+            '.MuiDataGrid-main': { color: '#06283D',fontSize:'30px',width:'100%'},
+            '.MuiDataGrid-columnHeaders':{fontSize:'20px'},
+            '.MuiDataGrid-cellContent':{fontSize:'20px'}
           }
         }}
       />
