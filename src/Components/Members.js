@@ -8,8 +8,10 @@ import { DataGrid, GridToolbarContainer, GridToolbarExport } from '@mui/x-data-g
 import AddMembers from './AddMembers';
 import ReplayIcon from '@mui/icons-material/Replay';
 import DeleteMembers from './DeleteMembers';
-import EditeMembers from './EditeMembers';
+import EditMembers from './EditMembers';
 import { Typography } from '@mui/material';
+import Abstract from "../Assets/Abstract.jpg";
+
 
 const useStyles = makeStyles(theme => ({
   buttongroup:{
@@ -20,8 +22,17 @@ const useStyles = makeStyles(theme => ({
     backgroundColor:"#06283D !important",
     color:"#DFF6FF"
   },  
+  Abstract:{
+    backgroundImage:`url(${Abstract})`,
+    backgroundRepeat:"no-repeat center center fixed",
+    height:"100vh",
+    width:"100vw",
+    backgroundSize:"cover",
+    opacity:"0.7"
+  },
+
   text:{
-    color:"#06283D",
+    color:"#1c2f36",
     fontFamily:"Times New Roman"
   },
   mainDivStyle:{
@@ -32,6 +43,7 @@ const useStyles = makeStyles(theme => ({
 //==================================
 function CustomToolbar() {
   return (
+
     <GridToolbarContainer>
       <GridToolbarExport
        printOptions={{
@@ -95,13 +107,14 @@ const Members = ({
           </div>          
         )
       },
-      { field: 'Address', headerName: 'Address', height:200,width: 700,align: "left" },  
+      { field: 'Address', headerName: 'Address', height:200,width: 400,align: "left" },  
       {
         field: 'PhotoURL',
         headerName: 'Photo',
         width: 100,
         height:200,
         editable: true,
+        fontSize:"40vw",
         renderCell: (params) => <img src={params.value} alt="avt" height="80" width="100"/>, // renderCell will render the component
       }
     ];
@@ -148,10 +161,10 @@ const Members = ({
     };
 
     //=================Delete Dialog ==================
-    const [editeOpen, setEditeOpen] = React.useState(false);
+    const [editOpen, setEditOpen] = React.useState(false);
     const handleEClickOpen = () => {
       if(id.length>0 && id.length<=1)
-        setEditeOpen(true);
+        setEditOpen(true);
       
       else 
         handleWarningSnackbar()
@@ -162,7 +175,7 @@ const Members = ({
  
     
   return (
-    <div >
+    <div className={classes.Abstract} >
       <ButtonGroup variant="contained" className={classes.buttongroup}>
         <Button className={classes.button} onClick={handleClickOpen}>Add</Button>
         <AddMembers 
@@ -173,10 +186,10 @@ const Members = ({
           handleAddSnackbar={handleAddSnackbar}
         />
 
-        <Button className={classes.button} onClick={handleEClickOpen}>Edite</Button>
-        <EditeMembers 
-          editeOpen={editeOpen} 
-          setEditeOpen={setEditeOpen} 
+        <Button className={classes.button} onClick={handleEClickOpen}>Edit</Button>
+        <EditMembers 
+          editOpen={editOpen} 
+          setEditOpen={setEditOpen} 
           addCheck={addCheck} 
           setAddCheck={setAddCheck} 
           id={id}

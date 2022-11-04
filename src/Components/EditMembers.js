@@ -33,9 +33,9 @@ const useStyles = makeStyles(theme => ({
     }
   }));
 
-const EditeMembers = ({editeOpen,setEditeOpen,addCheck,setAddCheck,id,handleEditSnackbar}) => {
+const EditMembers = ({editOpen,setEditOpen,addCheck,setAddCheck,id,handleEditSnackbar}) => {
     const handleClose = () => {
-        setEditeOpen(false);
+        setEditOpen(false);
       };
       
       const [memberValues,setMemberValues] = useState({
@@ -68,7 +68,7 @@ const EditeMembers = ({editeOpen,setEditeOpen,addCheck,setAddCheck,id,handleEdit
         handleClose()
       }
 
-      const editeMember = async (e) =>{
+      const editMember = async (e) =>{
         const newFields = {
           ProprietorName:{
             ProprietorName2:memberValues.ProprietorName2,
@@ -94,14 +94,14 @@ const EditeMembers = ({editeOpen,setEditeOpen,addCheck,setAddCheck,id,handleEdit
   return (
     <div>
         <Dialog
-        open={editeOpen}
+        open={editOpen}
         onClose={handleClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"   
         PaperProps={{ sx: { width: "70vw", height: "27vw" } }}     
       >
         <DialogTitle id="alert-dialog-title" className={classes.dialogBox}>
-          {"Edite Member Details"}
+          {"Edit Member Details"}
         </DialogTitle>
         <DialogContent className={classes.dialogBox}>
 
@@ -174,7 +174,7 @@ const EditeMembers = ({editeOpen,setEditeOpen,addCheck,setAddCheck,id,handleEdit
         </DialogContent>
         <DialogActions className={classes.dialogBox}>
           <Button onClick={handleAClose} className={classes.button}>Cancel</Button>
-          <Button onClick={editeMember} autoFocus className={classes.button}>
+          <Button onClick={editMember} autoFocus className={classes.button}>
             Add Data
           </Button>
         </DialogActions>
@@ -183,4 +183,4 @@ const EditeMembers = ({editeOpen,setEditeOpen,addCheck,setAddCheck,id,handleEdit
   )
 }
 
-export default EditeMembers
+export default EditMembers

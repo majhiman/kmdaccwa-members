@@ -6,12 +6,18 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Logo from "../Assets/Logo.png";
 import { makeStyles } from '@mui/styles';
+import { fontFamily } from '@mui/system';
+import Doo from "../Assets/Doo.jpg";
 
 const useStyles = makeStyles(theme => ({
     AppBar:{
-        backgroundImage:"radial-gradient(#06283D ,#06283D)",
-        width:"100%"
+        backgroundImage:`url(${Doo})` ,
+        width:"100%",
+        backgroundSize:'100vw 50vh',
+        backgroundRepeat: "no-repeat"
+
     },
+    
 
     logo:{
         height: "10vw",
@@ -21,8 +27,8 @@ const useStyles = makeStyles(theme => ({
     },
 
     text:{
-        color:"#DFF6FF",
-        fontFamily:"Times New Roman"
+        color:"#385b64",
+        fontFamily: 'Times-Bold' 
     }
 }));
 
