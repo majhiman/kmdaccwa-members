@@ -4,16 +4,16 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import Logo from "../Assets/Logo.png";
+import Logo from "../Assets/Logo.png"; 
 import { makeStyles } from '@mui/styles';
 import { fontFamily } from '@mui/system';
-import Doo from "../Assets/Doo.jpg";
+import Ph from "../Assets/Ph.jpg";
 
 const useStyles = makeStyles(theme => ({
     AppBar:{
-        backgroundImage:`url(${Doo})` ,
+        backgroundImage:`url(${Ph})` ,
         width:"100%",
-        backgroundSize:'100vw 50vh',
+        backgroundSize:'100vw 24vh',
         backgroundRepeat: "no-repeat"
 
     },
@@ -45,7 +45,7 @@ const Header = ({setCheckLogin}) => {
                 <Toolbar>
                     <img src={Logo} alt="logo" className={classes.logo}/>
                     <Typography variant="h5" component="div" sx={{ flexGrow: 1 }} className={classes.text}>
-                        KMDA Civil Contractor Welfare Association
+                        
                     </Typography>
                     <Button 
                         color="inherit" 
