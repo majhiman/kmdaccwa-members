@@ -13,7 +13,7 @@ const useStyles = makeStyles(theme => ({
     AppBar:{
         backgroundImage:`url(${Ph})` ,
         width:"100%",
-        backgroundSize:'100vw 24vh',
+        backgroundSize:'90vw 24vh',
         backgroundRepeat: "no-repeat"
 
     },
