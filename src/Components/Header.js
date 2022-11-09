@@ -6,14 +6,13 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Logo from "../Assets/Logo.png"; 
 import { makeStyles } from '@mui/styles';
-import { fontFamily } from '@mui/system';
 import Ph from "../Assets/Ph.jpg";
 
 const useStyles = makeStyles(theme => ({
     AppBar:{
         backgroundImage:`url(${Ph})` ,
         width:"100%",
-        backgroundSize:'92vw 24vh',
+        backgroundSize:'92vw 25vh',
         backgroundRepeat: "no-repeat"
 
     },

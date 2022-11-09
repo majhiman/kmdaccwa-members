@@ -1,6 +1,6 @@
 import { doc, updateDoc } from 'firebase/firestore';
 import { db } from '../firebase-config';
-import React, {useState } from 'react';
+import React, {useState,useEffect } from 'react';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -8,6 +8,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Button from '@mui/material/Button';
 import { makeStyles } from '@mui/styles';
 import TextField from '@mui/material/TextField';
+import { Typography } from '@mui/material';
 
 const useStyles = makeStyles(theme => ({
     dialogBox:{
@@ -33,20 +34,35 @@ const useStyles = makeStyles(theme => ({
     }
   }));
 
-const EditMembers = ({editOpen,setEditOpen,addCheck,setAddCheck,id,handleEditSnackbar}) => {
+const EditMembers = ({editOpen,setEditOpen,addCheck,setAddCheck,id,members,handleEditSnackbar}) => {
     const handleClose = () => {
         setEditOpen(false);
       };
       
-      const [memberValues,setMemberValues] = useState({
-        ProprietorName2:"",
-        ProprietorName3:"",
+      //for input field
+      const [memberValues,setMemberValues] = useState([])
+
+      //for previous stored data
+      const [fetchmemberdata,setFetchmemberdata] = useState({
         Address:"",
-        MobileNumber:"",
-        MobileNumber2:"",
-        MobileNumber3:"",
+        CompanyName:"",
+        IsDeleted:"",
+        MobileNumber:{
+          MobileNumber1:"",
+          MobileNumber2:"",
+          MobileNumber3:""
+        },
+        ProprietorName:{
+          ProprietorName1:"",
+          ProprietorName2:"",
+          ProprietorName3:""
+        },
+        PhotoURL:"",
+        id:""
       })
-        
+
+      //edit handlers
+
       const changeAddHandler = e =>{
         e.preventDefault();
         setMemberValues({
@@ -61,34 +77,268 @@ const EditMembers = ({editOpen,setEditOpen,addCheck,setAddCheck,id,handleEditSna
             ProprietorName2:"",
             ProprietorName3:"",
             Address:"",
-            MobileNumber:"",
+            MobileNumber1:"",
             MobileNumber2:"",
             MobileNumber3:"",
         })
         handleClose()
       }
 
+      //call to firebase
       const editMember = async (e) =>{
+        let mobile = false;
         const newFields = {
           ProprietorName:{
+            ProprietorName1:fetchmemberdata.ProprietorName.ProprietorName1,
             ProprietorName2:memberValues.ProprietorName2,
             ProprietorName3:memberValues.ProprietorName3,
           },            
           Address:memberValues.Address,
           MobileNumber:{
-            MobileNumber1:memberValues.MobileNumber,
+            MobileNumber1:memberValues.MobileNumber1,
             MobileNumber2:memberValues.MobileNumber2,
             MobileNumber3:memberValues.MobileNumber3,
           }            
         }
         const memberDoc = doc(db,"members",id[0]);
-            await updateDoc(memberDoc,newFields)
 
+        if((newFields.ProprietorName.ProprietorName2 === undefined || 
+          newFields.ProprietorName.ProprietorName2 === "") &&(
+          newFields.ProprietorName.ProprietorName3 === undefined ||
+          newFields.ProprietorName.ProprietorName3 === "")){
+            await updateDoc(memberDoc,{ProprietorName:{
+              ProprietorName1:fetchmemberdata.ProprietorName.ProprietorName1,
+              ProprietorName2:fetchmemberdata.ProprietorName.ProprietorName2,
+              ProprietorName3:fetchmemberdata.ProprietorName.ProprietorName3
+            }})
+        }
+
+        else if ((newFields.ProprietorName.ProprietorName2 !== undefined || 
+          newFields.ProprietorName.ProprietorName2 !== "") &&(
+          newFields.ProprietorName.ProprietorName3 === undefined ||
+          newFields.ProprietorName.ProprietorName3 === "")) {
+            await updateDoc(memberDoc,{ProprietorName:{
+              ProprietorName1:fetchmemberdata.ProprietorName.ProprietorName1,
+              ProprietorName2:newFields.ProprietorName.ProprietorName2,
+              ProprietorName3:fetchmemberdata.ProprietorName.ProprietorName3
+            }})
+          }
+        
+        else{
+          await updateDoc(memberDoc,{ProprietorName:{
+            ProprietorName1:fetchmemberdata.ProprietorName.ProprietorName1,
+            ProprietorName2:fetchmemberdata.ProprietorName.ProprietorName2,
+            ProprietorName3:newFields.ProprietorName.ProprietorName3
+          }})
+        }
+
+        if((newFields.MobileNumber.MobileNumber1 === undefined || 
+          newFields.MobileNumber.MobileNumber1 === "") &&(
+          newFields.MobileNumber.MobileNumber2 === undefined ||
+          newFields.MobileNumber.MobileNumber2 === "") && (
+          newFields.MobileNumber.MobileNumber3 === undefined ||
+          newFields.MobileNumber.MobileNumber3 === ""
+          ) && mobile === false){
+            await updateDoc(memberDoc,{
+              MobileNumber:{
+                MobileNumber1:fetchmemberdata.MobileNumber.MobileNumber1,
+                MobileNumber2:fetchmemberdata.MobileNumber.MobileNumber2,
+                MobileNumber3:fetchmemberdata.MobileNumber.MobileNumber3,
+              }   
+            })
+            mobile=true;            
+            //console.log("1")
+          }
+
+          else if((newFields.MobileNumber.MobileNumber1 !== undefined || 
+            newFields.MobileNumber.MobileNumber1 !== "") &&(
+            newFields.MobileNumber.MobileNumber2 === undefined ||
+            newFields.MobileNumber.MobileNumber2 === "") && (
+            newFields.MobileNumber.MobileNumber3 === undefined ||
+            newFields.MobileNumber.MobileNumber3 === ""
+            ) && mobile === false){
+              await updateDoc(memberDoc,{
+                MobileNumber:{
+                  MobileNumber1:newFields.MobileNumber.MobileNumber1,
+                  MobileNumber2:fetchmemberdata.MobileNumber.MobileNumber2,
+                  MobileNumber3:fetchmemberdata.MobileNumber.MobileNumber3,
+                }   
+              })
+              mobile=true;            
+              //console.log("2")
+            }
+
+            else if((newFields.MobileNumber.MobileNumber1 === undefined || 
+              newFields.MobileNumber.MobileNumber1 === "") &&(
+              newFields.MobileNumber.MobileNumber2 !== undefined ||
+              newFields.MobileNumber.MobileNumber2 !== "") && (
+              newFields.MobileNumber.MobileNumber3 === undefined ||
+              newFields.MobileNumber.MobileNumber3 === ""
+              ) && mobile === false){
+                await updateDoc(memberDoc,{
+                  MobileNumber:{
+                    MobileNumber1:fetchmemberdata.MobileNumber.MobileNumber1,
+                    MobileNumber2:newFields.MobileNumber.MobileNumber2,
+                    MobileNumber3:fetchmemberdata.MobileNumber.MobileNumber3,
+                  }   
+                })
+                mobile=true;            
+                //console.log("3")
+              }
+
+          else if((newFields.MobileNumber.MobileNumber1 === undefined || 
+              newFields.MobileNumber.MobileNumber1 === "") &&(
+              newFields.MobileNumber.MobileNumber2 !== undefined ||
+              newFields.MobileNumber.MobileNumber2 !== "") && (
+              newFields.MobileNumber.MobileNumber3 === undefined ||
+              newFields.MobileNumber.MobileNumber3 === ""
+              ) && mobile === false){
+                await updateDoc(memberDoc,{
+                  MobileNumber:{
+                    MobileNumber1:fetchmemberdata.MobileNumber.MobileNumber1,
+                    MobileNumber2:newFields.MobileNumber.MobileNumber2,
+                    MobileNumber3:fetchmemberdata.MobileNumber.MobileNumber3,
+                  }   
+                })
+                mobile=true;            
+                //console.log("3")
+              }
+
+          else if((newFields.MobileNumber.MobileNumber1 === undefined || 
+              newFields.MobileNumber.MobileNumber1 === "") &&(
+              newFields.MobileNumber.MobileNumber2 !== undefined ||
+              newFields.MobileNumber.MobileNumber2 !== "") && (
+              newFields.MobileNumber.MobileNumber3 === undefined ||
+              newFields.MobileNumber.MobileNumber3 === ""
+              ) && mobile === false){
+                await updateDoc(memberDoc,{
+                  MobileNumber:{
+                    MobileNumber1:fetchmemberdata.MobileNumber.MobileNumber1,
+                    MobileNumber2:newFields.MobileNumber.MobileNumber2,
+                    MobileNumber3:fetchmemberdata.MobileNumber.MobileNumber3,
+                  }   
+                })
+                mobile=true;            
+                //console.log("3")
+              }
+              else if((newFields.MobileNumber.MobileNumber1 === undefined || 
+                newFields.MobileNumber.MobileNumber1 === "") &&(
+                newFields.MobileNumber.MobileNumber2 === undefined ||
+                newFields.MobileNumber.MobileNumber2 === "") && (
+                newFields.MobileNumber.MobileNumber3 !== undefined ||
+                newFields.MobileNumber.MobileNumber3 !== ""
+                ) && mobile === false){
+                  await updateDoc(memberDoc,{
+                    MobileNumber:{
+                      MobileNumber1:fetchmemberdata.MobileNumber.MobileNumber1,
+                      MobileNumber2:fetchmemberdata.MobileNumber.MobileNumber2,
+                      MobileNumber3:newFields.MobileNumber.MobileNumber3,
+                    }   
+                  })
+                  mobile=true;            
+                  //console.log("4")
+                }
+
+
+                else if((newFields.MobileNumber.MobileNumber1 !== undefined || 
+                  newFields.MobileNumber.MobileNumber1 !== "") &&(
+                  newFields.MobileNumber.MobileNumber2 !== undefined ||
+                  newFields.MobileNumber.MobileNumber2 !== "") && (
+                  newFields.MobileNumber.MobileNumber3 === undefined ||
+                  newFields.MobileNumber.MobileNumber3 === ""
+                  ) && mobile === false){
+                    await updateDoc(memberDoc,{
+                      MobileNumber:{
+                        MobileNumber1:newFields.MobileNumber.MobileNumber1,
+                        MobileNumber2:newFields.MobileNumber.MobileNumber2,
+                        MobileNumber3:fetchmemberdata.MobileNumber.MobileNumber3,
+                      }   
+                    })
+                    mobile=true;            
+                    //console.log("5")
+                  }
+
+                  else if((newFields.MobileNumber.MobileNumber1 === undefined || 
+                    newFields.MobileNumber.MobileNumber1 === "") &&(
+                    newFields.MobileNumber.MobileNumber2 !== undefined ||
+                    newFields.MobileNumber.MobileNumber2 !== "") && (
+                    newFields.MobileNumber.MobileNumber3 !== undefined ||
+                    newFields.MobileNumber.MobileNumber3 !== ""
+                    ) && mobile === false){
+                      await updateDoc(memberDoc,{
+                        MobileNumber:{
+                          MobileNumber1:fetchmemberdata.MobileNumber.MobileNumber1,
+                          MobileNumber2:newFields.MobileNumber.MobileNumber2,
+                          MobileNumber3:newFields.MobileNumber.MobileNumber3,
+                        }   
+                      })
+                      mobile=true;            
+                      //console.log("6")
+                    }
+
+                    else if((newFields.MobileNumber.MobileNumber1 !== undefined || 
+                      newFields.MobileNumber.MobileNumber1 !== "") &&(
+                      newFields.MobileNumber.MobileNumber2 === undefined ||
+                      newFields.MobileNumber.MobileNumber2 === "") && (
+                      newFields.MobileNumber.MobileNumber3 !== undefined ||
+                      newFields.MobileNumber.MobileNumber3 !== ""
+                      ) && mobile === false){
+                        await updateDoc(memberDoc,{
+                          MobileNumber:{
+                            MobileNumber1:newFields.MobileNumber.MobileNumber1,
+                            MobileNumber2:fetchmemberdata.MobileNumber.MobileNumber2,
+                            MobileNumber3:newFields.MobileNumber.MobileNumber3,
+                          }   
+                        })
+                        mobile=true;            
+                        //console.log("7")
+                      }
+
+                      else if((newFields.MobileNumber.MobileNumber1 !== undefined || 
+                        newFields.MobileNumber.MobileNumber1 !== "") &&(
+                        newFields.MobileNumber.MobileNumber2 !== undefined ||
+                        newFields.MobileNumber.MobileNumber2 !== "") && (
+                        newFields.MobileNumber.MobileNumber3 !== undefined ||
+                        newFields.MobileNumber.MobileNumber3 !== ""
+                        ) && mobile === false){
+                          await updateDoc(memberDoc,{
+                            MobileNumber:{
+                              MobileNumber1:newFields.MobileNumber.MobileNumber1,
+                              MobileNumber2:newFields.MobileNumber.MobileNumber2,
+                              MobileNumber3:newFields.MobileNumber.MobileNumber3,
+                            }   
+                          })
+                          mobile=true;            
+                          //console.log("8")
+                        }
+          
+          if(newFields.Address==="" || newFields.Address=== undefined){
+            await updateDoc(memberDoc,{Address:fetchmemberdata.Address})
+          }
+
+          else if(newFields.Address!=="" || newFields.Address!== undefined){
+            await updateDoc(memberDoc,{Address:newFields.Address})
+          }
+                  
         setAddCheck(addCheck+1);
-        handleClose();
+        handleAClose();
         handleEditSnackbar()
     }
-      
+
+    //fetching data
+    useEffect(()=>{
+      const getMembers = async () =>{
+         for(let i=0;i<members.length;i++){
+          if(members[i].id === id[0]){
+            setFetchmemberdata(members[i])
+          }
+         }
+      }
+      getMembers()
+      //console.log(fetchmemberdata)
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+  })
+
           
       const classes = useStyles();
   return (
@@ -104,6 +354,8 @@ const EditMembers = ({editOpen,setEditOpen,addCheck,setAddCheck,id,handleEditSna
           {"Edit Member Details"}
         </DialogTitle>
         <DialogContent className={classes.dialogBox}>
+        <Typography>Company Name :- {fetchmemberdata.CompanyName}</Typography>
+        <Typography>Proprietor Name 1 :- {fetchmemberdata.ProprietorName.ProprietorName1}</Typography>
 
           <TextField 
             id="outlined-basic" 
@@ -133,8 +385,8 @@ const EditMembers = ({editOpen,setEditOpen,addCheck,setAddCheck,id,handleEditSna
             variant="outlined" 
             size="small" 
             className={classes.textField} 
-            name="MobileNumber"
-            value={memberValues.MobileNumber} 
+            name="MobileNumber1"
+            value={memberValues.MobileNumber1} 
             onChange={changeAddHandler}
           />
 

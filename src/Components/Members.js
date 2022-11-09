@@ -25,8 +25,8 @@ const useStyles = makeStyles(theme => ({
   Abstract:{
     backgroundImage:`url(${Abstract})`,
     backgroundRepeat:"no-repeat center center fixed",
-    height:"100vh",
-    width:"100vw",
+    height:"65vh",
+    width:"100%",
     backgroundSize:"cover",
     opacity:"0.7"
   },
@@ -194,6 +194,7 @@ const Members = ({
           setAddCheck={setAddCheck} 
           id={id}
           handleEditSnackbar={handleEditSnackbar}
+          members={members}
         />
 
         <Button className={classes.button} onClick={handleDClickOpen}>Delete</Button>
