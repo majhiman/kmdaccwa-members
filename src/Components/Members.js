@@ -11,6 +11,7 @@ import DeleteMembers from './DeleteMembers';
 import EditMembers from './EditMembers';
 import { Typography } from '@mui/material';
 import Abstract from "../Assets/Abstract.jpg";
+import { useNavigate } from "react-router-dom";
 
 
 const useStyles = makeStyles(theme => ({
@@ -20,15 +21,22 @@ const useStyles = makeStyles(theme => ({
   },
   button:{
     backgroundColor:"#06283D !important",
-    color:"#DFF6FF"
+    color:"#DFF6FF",
   },  
+  buttonRight:{
+    backgroundColor:"#06283D !important",
+    color:"#DFF6FF !important",
+    float:"right",
+    marginRight:"1% !important",
+    marginTop:"1% !important",
+    textDecoration:"none !important"
+  },
   Abstract:{
     backgroundImage:`url(${Abstract})`,
     backgroundRepeat:"no-repeat center center fixed",
-    height:"65vh",
+    height:"100%",
     width:"100%",
     backgroundSize:"cover",
-    opacity:"0.7"
   },
 
   text:{
@@ -61,7 +69,7 @@ const Members = ({
   handleEditSnackbar,
   handleDeleteSnackbar,
   handleWarningSnackbar,
-  handleSRefresh
+  handleSRefresh,
 }) => {
 
     const [members,setMembers] = useState([]);
@@ -130,6 +138,12 @@ const Members = ({
       handleSRefresh()
       setRefresh(refresh+1)
     }
+
+    const navigate = useNavigate();
+    const handleTender = () =>{
+      navigate("/tender");
+    }
+    
     useEffect(()=>{
         const getMembers = async () =>{
             const data = await getDocs(q);
@@ -176,6 +190,8 @@ const Members = ({
     
   return (
     <div className={classes.Abstract} >
+      <h3 className={classes.buttongroup}>Members Details</h3>
+      <h4 className={classes.buttongroup}>Total Members :- {members.length}</h4>
       <ButtonGroup variant="contained" className={classes.buttongroup}>
         <Button className={classes.button} onClick={handleClickOpen}>Add</Button>
         <AddMembers 
@@ -186,7 +202,7 @@ const Members = ({
           handleAddSnackbar={handleAddSnackbar}
         />
 
-        <Button className={classes.button} onClick={handleEClickOpen}>Edit</Button>
+        <Button className={classes.button} onClick={handleEClickOpen}>Update</Button>
         <EditMembers 
           editOpen={editOpen} 
           setEditOpen={setEditOpen} 
@@ -208,8 +224,11 @@ const Members = ({
         />
 
         <Button className={classes.button} onClick={handleRefresh}><ReplayIcon/></Button>
+
+        
       </ButtonGroup>
 
+      <Button className={classes.buttonRight} onClick={handleTender}>Tender Details</Button>
       
       
       <DataGrid

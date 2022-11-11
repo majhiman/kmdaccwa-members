@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Login from "./Components/Login";
 import Admin from "./Components/Admin";
+import Tender from "./Components/Tender";
 import React, {useState } from 'react'
 
 
@@ -19,7 +20,13 @@ function App() {
             <Route
               exact
               path="/admin"
-              element={<Admin authorised={checklogin} setCheckLogin={setCheckLogin}/>}
+              element={<Admin authorised={checklogin} setCheckLogin={setCheckLogin} />}
+            />
+
+            <Route
+              exact
+              path="/tender"
+              element={<Tender authorised={checklogin} setCheckLogin={setCheckLogin}/>}
             />
           </Route>
         </Routes >
