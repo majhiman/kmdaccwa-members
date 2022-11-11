@@ -11,8 +11,9 @@ import Ph from "../Assets/Ph.jpg";
 const useStyles = makeStyles(theme => ({
     AppBar:{
         backgroundImage:`url(${Ph})` ,
+        backgroundColor:'#385b64 !important',
         width:"100%",
-        backgroundSize:'92vw 25vh',
+        backgroundSize:'93vw 25vh',
         backgroundRepeat: "no-repeat"
 
     },
@@ -28,6 +29,11 @@ const useStyles = makeStyles(theme => ({
     text:{
         color:"#385b64",
         fontFamily: 'Times-Bold' 
+
+    },
+    Box:{
+        backgroundColor:'#385b64 !important',
+
     }
 }));
 
@@ -38,8 +44,8 @@ const Header = ({setCheckLogin}) => {
         setCheckLogin(false);
     }
   return (
-    <div>
-        <Box sx={{ flexGrow: 1 }}>
+    <div >
+        <Box sx={{ flexGrow: 1 }} classname={classes.box}>
             <AppBar position="static" className={classes.AppBar}>
                 <Toolbar>
                     <img src={Logo} alt="logo" className={classes.logo}/>

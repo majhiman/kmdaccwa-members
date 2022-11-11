@@ -11,6 +11,7 @@ import DeleteMembers from './DeleteMembers';
 import EditMembers from './EditMembers';
 import { Typography } from '@mui/material';
 import Abstract from "../Assets/Abstract.jpg";
+import { ImportantDevices } from '@mui/icons-material';
 
 
 const useStyles = makeStyles(theme => ({
@@ -19,8 +20,10 @@ const useStyles = makeStyles(theme => ({
     marginTop:"1%"
   },
   button:{
-    backgroundColor:"#06283D !important",
-    color:"#DFF6FF"
+    backgroundColor:"#213d44 !important",
+    color:"#f17561 !important",
+    fontWeight: 'bold !important' ,
+
   },  
   Abstract:{
     backgroundImage:`url(${Abstract})`,
@@ -32,11 +35,11 @@ const useStyles = makeStyles(theme => ({
   },
 
   text:{
-    color:"#1c2f36",
-    fontFamily:"Times New Roman"
+    color:"#000000",
+    fontFamily: 'Times-Bold',  
   },
   mainDivStyle:{
-    marginTop:"1%"
+    marginTop:"1%",
   }
 }));
 
@@ -176,6 +179,7 @@ const Members = ({
     
   return (
     <div className={classes.Abstract} >
+       <span className="bold"></span>
       <ButtonGroup variant="contained" className={classes.buttongroup}>
         <Button className={classes.button} onClick={handleClickOpen}>Add</Button>
         <AddMembers 
@@ -226,28 +230,34 @@ const Members = ({
           itm => handleSl_no(itm)           
         }
         components={{ Toolbar: CustomToolbar }}
-        style={{color:"#06283D",height: '100%', width: '100%',whiteSpace: 'pre-line'}}
+        style={{color:"#1a2e35",height: '100%', width: '100%',whiteSpace: 'pre-line',fontWeight:700}}
         sx={{
           ".MuiTablePagination-displayedRows":{
-            color:"#06283D"
+            color:"#1a2e35",
+            fontWeight:'700 !important'
           },
           ".MuiTablePagination-toolbar":{
-            color:"#06283D"
+            color:"#1a2e35",
+            fontWeight:'700 !important'
           },
           ".MuiTablePagination-actions":{
-            color:"#06283D"
+            color:"#1a2e35",
+            fontWeight:700
           },
           ".css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root":{
-            color:"#06283D"
+            color:"#1a2e35",
+            fontWeight:700
           },
           ".css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root.Mui-checked":{
-            color:"#06283D"
+            color:"#1a2e35",
+            fontWeight:700
           },
           ".MuiSvgIcon-root":{
-            color:"#06283D"
+            color:"#1a2e35",
+            fontWeight:700
           },
           '@media print': {
-            '.MuiDataGrid-main': { color: '#06283D',fontSize:'30px',width:'100%'},
+            '.MuiDataGrid-main': { color: '#1a2e35',fontSize:'30px',width:'100% ',fontWeight:700},
             '.MuiDataGrid-columnHeaders':{fontSize:'20px'},
             '.MuiDataGrid-cellContent':{fontSize:'20px'}
           }
