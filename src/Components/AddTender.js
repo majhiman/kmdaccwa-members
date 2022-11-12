@@ -1,5 +1,4 @@
-
-import React, {useState } from 'react';
+import React from 'react';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -46,71 +45,14 @@ const useStyles = makeStyles(theme => ({
   }));
   
 
-const AddTender = ({addOpen,setAddOpen,addCheck,setAddCheck,handleAddSnackbar}) => {
+const AddTender = ({addOpen,setAddOpen}) => {
+
     const handleClose = () => {
         setAddOpen(false);
-      };
-
-      /*const membersCollectionRef = collection(db, "members")
-    const [memberValues,setMemberValues] = useState({
-      CompanyName:"",
-      ProprietorName1:"",
-      ProprietorName2:"",
-      ProprietorName3:"",
-      Address:"",
-      MobileNumber:"",
-      PhotoURL:"",
-      IsDeleted:"",
-      MobileNumber2:"",
-      MobileNumber3:"",
-    })
-    const [memberPhoto,setMemberPhoto] = useState(null)
+      };  
     
-    const changeAddHandler = e =>{
-      e.preventDefault();
-      setMemberValues({
-        ...memberValues,
-        [e.target.name]:e.target.value
-      })
-    }
 
-    const createMember = () =>{
-      if(memberPhoto == null)
-        return;
-      var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-      var charactersLength = characters.length;
-      const photoRef = ref(storage,`Photo/${memberValues.CompanyName+memberValues.MobileNumber+characters.charAt(Math.floor(Math.random() * 
-        charactersLength))}`);
-
-        const uploadTask = uploadBytesResumable(photoRef, memberPhoto)
-      uploadTask.on('state_changed', (snapshot) => {
-        }, 
-      (error) => { 
-        // error function ....
-        console.log(error);
-      }, 
-      ()=>{
-        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-          addDoc(membersCollectionRef,
-            {
-              CompanyName:memberValues.CompanyName,
-              },              
-              Address:memberValues.Address,
-              MobileNumber: {
-                MobileNumber1:memberValues.MobileNumber,
-                MobileNumber2:memberValues.MobileNumber2,
-                MobileNumber3:memberValues.MobileNumber3,
-              },
-              PhotoURL:downloadURL,
-              IsDeleted:0,              
-            })
-          handleAClose()
-          setAddCheck(addCheck+1)
-          handleAddSnackbar()
-        })  
-      });
-     
-    */
+    
  const classes = useStyles();
   return (
     
@@ -120,7 +62,7 @@ const AddTender = ({addOpen,setAddOpen,addCheck,setAddCheck,handleAddSnackbar}) 
         onClose={handleClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"   
-        PaperProps={{ sx: { width: "70vw", height: "27vw" } }}     
+        PaperProps={{ sx: { width: "70vw", height: "20vw" } }}     
       >
         <DialogTitle id="alert-dialog-title" className={classes.dialogBox}>
           {"Add New Members"}

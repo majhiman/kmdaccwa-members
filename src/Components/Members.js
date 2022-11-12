@@ -11,7 +11,6 @@ import DeleteMembers from './DeleteMembers';
 import EditMembers from './EditMembers';
 import { Typography } from '@mui/material';
 import Abstract from "../Assets/Abstract.jpg";
-import { ImportantDevices } from '@mui/icons-material';
 import { useNavigate, /* other hooks */ } from 'react-router-dom'; 
 
 
@@ -157,7 +156,7 @@ const Members = ({
             })));            
         }
         getMembers()
-        console.log(members)
+        //console.log(members)
         // eslint-disable-next-line react-hooks/exhaustive-deps
     },[addCheck,refresh])
 
