@@ -1,13 +1,18 @@
 import React from 'react'
-import { makeStyles } from '@mui/styles';
-import Header from './Header'
-import { Navigate} from 'react-router-dom';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
-import ReplayIcon from '@mui/icons-material/Replay';
-import { useNavigate } from "react-router-dom";
+import { makeStyles } from '@mui/styles';
 import { DataGrid, GridToolbarContainer, GridToolbarExport } from '@mui/x-data-grid';
 import AddTender from './AddTender';
+import ReplayIcon from '@mui/icons-material/Replay';
+import DeleteTenders from './DeleteTenders';
+import { Typography } from '@mui/material';
+import Header from './Header'
+import { Navigate} from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
+import tender from 'Tender'
+
+
 
 const useStyles = makeStyles(theme => ({
   buttongroup:{
@@ -68,8 +73,20 @@ const Tender = ({authorised,setCheckLogin}) => {
       );
     }
 
+    const Members = ({
+      handleAddSnackbar,
+      handleEditSnackbar,
+      handleDeleteSnackbar,
+      handleWarningSnackbar,
+      handleSRefresh,
+    }) => {
 
-    const members=[]
+      const [tender,setTenders] = useState([]);
+      const tenderCollectionRef = collection(db, "tenders");
+      const q = query(tenderCollectionRef,where("IsDeleted","==",0))
+      const [addCheck,setAddCheck] = useState(0)
+      const [refresh,setRefresh] = useState(0)
+
     const columns = [
       {
         headerName: 'Sl No', 
@@ -103,6 +120,62 @@ const Tender = ({authorised,setCheckLogin}) => {
         fontSize:"40vw"
       }
     ];
+    const [id,setId] = useState([])
+    const handleSl_no = (dataGridSl_no) =>{
+      setId(dataGridSl_no)
+    }
+
+    //==========Refresh=====
+    const handleRefresh = () =>{
+      handleSRefresh()
+      setRefresh(refresh+1)
+    }
+
+    const navigate = useNavigate();
+    const handleTender = () =>{
+      navigate("/tender");
+    }
+    
+    useEffect(()=>{
+        const getTenders = async () =>{
+            const data = await getDocs(q);
+            setTenders(data.docs.map((doc)=>({
+              ...doc.data(),
+              id:doc.id,
+            })));            
+        }
+        getTenders()
+        //console.log(members)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[addCheck,refresh])
+
+    const classes = useStyles();
+
+    //=================Add Dialog ==================
+    const [addOpen, setAddOpen] = React.useState(false);
+    const handleClickOpen = () => {
+      setAddOpen(true);
+    };
+
+    //=================Delete Dialog ==================
+    const [deleteOpen, setDeleteOpen] = React.useState(false);
+    const handleDClickOpen = () => {
+      if(id.length>0)
+        setDeleteOpen(true);
+      else
+        handleWarningSnackbar();
+    };
+
+    //=================Delete Dialog ==================
+    const [editOpen, setEditOpen] = React.useState(false);
+    const handleEClickOpen = () => {
+      if(id.length>0 && id.length<=1)
+        setEditOpen(true);
+      
+      else 
+        handleWarningSnackbar()
+    };
+
   return (
     <div>
         <Header setCheckLogin={setCheckLogin}/>
@@ -118,7 +191,7 @@ const Tender = ({authorised,setCheckLogin}) => {
           <Button className={classes.button}><ReplayIcon/></Button>
         </ButtonGroup>
 
-        <Button className={classes.buttonRight} onClick={handleMember}>Members Details</Button>
+        <Button className={classes.buttonRight} onClick={handleTender}>Tender Details</Button>
 
         <DataGrid
         className={classes.mainDivStyle}
