@@ -31,6 +31,7 @@ const useStyles = makeStyles(theme => ({
     },
     companyName:{
       marginLeft:"2% !important",
+      marginTop:"5% !important"
     },
     uploadButton:{
       marginRight:"35% !important",
@@ -47,7 +48,7 @@ const useStyles = makeStyles(theme => ({
   }));
   
 
-const AddTender = ({addOpen,setAddOpen}) => {
+const AddTender = ({addOpen,setAddOpen,checkTender,setCheckTender}) => {
 
     const handleClose = () => {
         setAddOpen(false);
@@ -56,20 +57,19 @@ const AddTender = ({addOpen,setAddOpen}) => {
     const [members,setMembers] = useState([]);
     const membersCollectionRef = collection(db, "members");
     const q = query(membersCollectionRef,where("IsDeleted","==",0))
+    const [companyName, setCompanyName] = useState();
+    const [vrate, setVRate] = useState();
     const [tenderValues,setTenderValues] = useState({
-      CompanyName:"",
       TenderNo:"",
       TenderAmount:"",
       FinalcialYear:"",
-      Rate:"",
-      percengate:"",
       ReceiptNo:""
     })
 
     useEffect(()=>{
       const getMembers = async () =>{
           const data = await getDocs(q);
-          console.log(data)
+          //console.log(data)
           setMembers(data.docs.map((doc)=>({
             ...doc.data(),
             id:doc.id,
@@ -78,7 +78,7 @@ const AddTender = ({addOpen,setAddOpen}) => {
       getMembers()
       
       // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[])
+    },[])
 
   const changeAddHandler = e =>{
     e.preventDefault();
@@ -88,13 +88,31 @@ const AddTender = ({addOpen,setAddOpen}) => {
     })
   }
 
+  const handelAClose = () =>{
+    setTenderValues({
+      TenderNo:"",
+      TenderAmount:"",
+      FinalcialYear:"",
+      ReceiptNo:""
+    })
+    handleClose();
+  }
   const tenderCollectionRef = collection(db, "tenders")
   const createTenders = () =>{
-    /*
+    
     addDoc(tenderCollectionRef,{
-      CompanyName:
-    })*/
-    console.log(tenderValues)
+      CompanyName:companyName,
+      TenderNo:tenderValues.TenderNo,
+      Rate:vrate,
+      Percentage:(tenderValues.TenderAmount)*0.005,
+      ReceiptNo:tenderValues.ReceiptNo,
+      TenderAmount:tenderValues.TenderAmount,
+      FinalcialYear:tenderValues.FinalcialYear,
+      IsDeleted:0
+    })
+    
+    handelAClose();
+    setCheckTender(checkTender+1)
   }
 
     
@@ -120,16 +138,13 @@ const AddTender = ({addOpen,setAddOpen}) => {
             id="combo-box-demo"
             options={members}
             getOptionLabel={option => option.CompanyName}
-            sx={{ width: 300 }}
+            sx={{ width: 230}}
             renderInput={(params) => <TextField 
               {...params} 
-              label="CompanyName" 
-              name="CompanyName"
-              value={tenderValues.CompanyName}
-              onChange={changeAddHandler}
+              label="Company Name"               
               />}
-          />
-          
+            onChange={(event, value) => setCompanyName(value.CompanyName)}
+          />          
           
           <TextField 
             id="outlined-basic" 
@@ -169,31 +184,33 @@ const AddTender = ({addOpen,setAddOpen}) => {
 
           <TextField 
             id="outlined-basic" 
-            label="Rate" 
-            variant="outlined" 
-            size="small" 
-            className={classes.textField} 
-            name="Rate"
-            value={tenderValues.Rate} 
-            onChange={changeAddHandler}
-           required
-          />
-
-          <TextField 
-            id="outlined-basic" 
             label="Receipt No." 
             variant="outlined" 
             size="small" 
             className={classes.textField} 
             name="ReceiptNo"
-            value={tenderValues.ReciptNo} 
+            value={tenderValues.ReceiptNo} 
             onChange={changeAddHandler}
             required
           />
 
+          <Autocomplete
+            className={classes.companyName}
+            disablePortal
+            id="combo-box-demo"
+            options={rate}
+            getOptionLabel={option => option.Rate}
+            sx={{ width: 230}}
+            renderInput={(params) => <TextField 
+              {...params} 
+              label="Rate"               
+              />}
+            onChange={(event, value) => setVRate(value.Rate)}
+          />
+
         </DialogContent>
         <DialogActions className={classes.dialogBox}>
-          <Button onClick={handleClose} className={classes.button}>Cancel</Button>
+          <Button onClick={handelAClose} className={classes.button}>Cancel</Button>
          <Button autoFocus className={classes.button} onClick={createTenders}>
             Add Data
           </Button>
@@ -204,3 +221,9 @@ const AddTender = ({addOpen,setAddOpen}) => {
 }
 
 export default AddTender
+
+const rate = [
+  {Rate:"At Per", id:1},
+  {Rate:"Above", id:2},
+  {Rate:"Less", id:3}
+]

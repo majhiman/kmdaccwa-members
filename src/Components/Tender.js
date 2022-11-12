@@ -1,4 +1,6 @@
-import React from 'react'
+import React,{ useState,useEffect } from 'react'
+import { db } from '../firebase-config';
+import {collection, getDocs, where, query} from "firebase/firestore"
 import { makeStyles } from '@mui/styles';
 import Header from './Header'
 import { Navigate} from 'react-router-dom';
@@ -10,6 +12,9 @@ import { DataGrid, GridToolbarContainer, GridToolbarExport } from '@mui/x-data-g
 import AddTender from './AddTender';
 
 const useStyles = makeStyles(theme => ({
+  headertext:{
+    marginLeft:"1%",
+  },
   buttongroup:{
     marginLeft:"1%",
     marginTop:"1%"
@@ -35,7 +40,24 @@ const useStyles = makeStyles(theme => ({
 
 const Tender = ({authorised,setCheckLogin}) => {
 
-  
+  const [checkTender,setCheckTender] = useState(0);
+  const [tenders,setTenders] = useState([]);
+  const tenderCollectionRef = collection(db, "tenders");
+  const q = query(tenderCollectionRef,where("IsDeleted","==",0))
+
+  useEffect(()=>{
+    const getTenders = async () =>{
+        const data = await getDocs(q);
+        //console.log(data)
+        setTenders(data.docs.map((doc)=>({
+          ...doc.data(),
+          id:doc.id,
+        })));            
+    }
+    getTenders()
+    
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[checkTender])
 
   //=================Add Dialog ==================
   const [addOpen, setAddOpen] = React.useState(false);
@@ -52,7 +74,7 @@ const Tender = ({authorised,setCheckLogin}) => {
         return <Navigate  to="/"/>;
     }
 
-
+    
 
     //==================================
     function CustomToolbar() {
@@ -68,8 +90,6 @@ const Tender = ({authorised,setCheckLogin}) => {
       );
     }
 
-
-    const members=[]
     const columns = [
       {
         headerName: 'Sl No', 
@@ -87,13 +107,27 @@ const Tender = ({authorised,setCheckLogin}) => {
         align: "left",
       },
       { 
+        field: 'TenderAmount',
+        headerName: 'Tender Amount', 
+        height:200,
+        width: 250,
+        align: "left",
+      },
+      { 
+        field: 'FinalcialYear',
+        headerName: 'Finalcial Year', 
+        height:200,
+        width: 250,
+        align: "left",
+      },
+      { 
         field: 'Rate',
         headerName: 'Rate', 
         height:200,
         width: 200,
         align: "left"
       },
-      { field: '0.50%', headerName: '0.50%', height:200,width: 400,align: "left" },  
+      { field: 'Percentage', headerName: '0.50%', height:200,width: 400,align: "left" },  
       {
         field: 'ReceiptNo',
         headerName: 'Receipt No',
@@ -103,14 +137,20 @@ const Tender = ({authorised,setCheckLogin}) => {
         fontSize:"40vw"
       }
     ];
+
+    
+
   return (
     <div>
         <Header setCheckLogin={setCheckLogin}/>
+        <h4 className={classes.headertext}>Tender Details</h4>
         <ButtonGroup variant="contained" className={classes.buttongroup}>
           <Button className={classes.button} onClick={handleClickOpen}>Add</Button>
           <AddTender
           addOpen={addOpen} 
           setAddOpen={setAddOpen}
+          checkTender={checkTender}
+          setCheckTender={setCheckTender}
         />
 
           <Button className={classes.button}>Update</Button>
@@ -124,7 +164,7 @@ const Tender = ({authorised,setCheckLogin}) => {
         className={classes.mainDivStyle}
         rowHeight={80}
         columns={columns} 
-        rows={members}
+        rows={tenders}
         getRowId={(r) => r.id}
         rowsPerPageOptions={[7,10,25,50,100]}
         autoHeight
