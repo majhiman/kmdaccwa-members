@@ -13,8 +13,9 @@ const useStyles = makeStyles(theme => ({
         backgroundImage:`url(${Ph})` ,
         backgroundColor:'#385b64 !important',
         width:"100%",
-        backgroundSize:'93vw 25vh',
-        backgroundRepeat: "no-repeat"
+        backgroundSize:'92vw 25vh',
+        backgroundRepeat: "no-repeat",
+        textDecorationColor:'#'
 
     },
     

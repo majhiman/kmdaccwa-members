@@ -14,7 +14,7 @@ const useStyles = makeStyles(theme => ({
     position:"absolute",
     color:"#06283D",
     width: "15.4%",
-    height: "60%",
+    height: "30%",
     right: "28.5%",
     bottom: "10%",
     borderColor:"#e57059 !important",
@@ -75,7 +75,7 @@ const Login = ({setCheckLogin}) => {
     }
   }
 
-  
+  //window.onload = function () {window.location.reload()}
   return (
     <div className={classes.Wallpap}>
 

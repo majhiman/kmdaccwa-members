@@ -12,8 +12,9 @@ import { Typography } from '@mui/material';
 
 const useStyles = makeStyles(theme => ({
     dialogBox:{
-      backgroundImage:"radial-gradient(#256D85 ,#256D85)",
-      color:"#DFF6FF"
+      backgroundImage:"radial-gradient(#cb5041 ,#cb5041)",
+      color:"#DFF6FF",
+      fontWeight:'700 !important',
     },
     text:{
       color:"#DFF6FF",
@@ -29,8 +30,8 @@ const useStyles = makeStyles(theme => ({
       color:"#DFF6FF"
     },
     button:{
-      backgroundColor:"#06283D !important",
-      color:"#47B5FF !important"
+      backgroundColor:"#831707 !important",
+      color:"#DFF6FF !important"
     }
   }));
 

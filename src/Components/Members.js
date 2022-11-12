@@ -12,6 +12,8 @@ import EditMembers from './EditMembers';
 import { Typography } from '@mui/material';
 import Abstract from "../Assets/Abstract.jpg";
 import { ImportantDevices } from '@mui/icons-material';
+import { useNavigate, /* other hooks */ } from 'react-router-dom'; 
+
 
 
 const useStyles = makeStyles(theme => ({
@@ -25,13 +27,20 @@ const useStyles = makeStyles(theme => ({
     fontWeight: 'bold !important' ,
 
   },  
+  buttonRight:{
+    backgroundColor:"#06283D !important",
+    color:"#DFF6FF !important",
+    float:"right",
+    marginRight:"1% !important",
+    marginTop:"1% !important",
+    textDecoration:"bold, italic !important"
+  },
   Abstract:{
     backgroundImage:`url(${Abstract})`,
     backgroundRepeat:"no-repeat center center fixed",
-    height:"65vh",
+    height:"100%",
     width:"100%",
     backgroundSize:"cover",
-    opacity:"0.7"
   },
 
   text:{
@@ -64,7 +73,7 @@ const Members = ({
   handleEditSnackbar,
   handleDeleteSnackbar,
   handleWarningSnackbar,
-  handleSRefresh
+  handleSRefresh,
 }) => {
 
     const [members,setMembers] = useState([]);
@@ -133,6 +142,12 @@ const Members = ({
       handleSRefresh()
       setRefresh(refresh+1)
     }
+
+    const navigate = useNavigate();
+    const handleTender = () =>{
+      navigate("/tender");
+    }
+    
     useEffect(()=>{
         const getMembers = async () =>{
             const data = await getDocs(q);
@@ -190,7 +205,7 @@ const Members = ({
           handleAddSnackbar={handleAddSnackbar}
         />
 
-        <Button className={classes.button} onClick={handleEClickOpen}>Edit</Button>
+        <Button className={classes.button} onClick={handleEClickOpen}>Update</Button>
         <EditMembers 
           editOpen={editOpen} 
           setEditOpen={setEditOpen} 
@@ -212,8 +227,11 @@ const Members = ({
         />
 
         <Button className={classes.button} onClick={handleRefresh}><ReplayIcon/></Button>
+
+        
       </ButtonGroup>
 
+      <Button className={classes.buttonRight} onClick={handleTender}>Tender Details</Button>
       
       
       <DataGrid
@@ -230,34 +248,33 @@ const Members = ({
           itm => handleSl_no(itm)           
         }
         components={{ Toolbar: CustomToolbar }}
-        style={{color:"#1a2e35",height: '100%', width: '100%',whiteSpace: 'pre-line',fontWeight:700}}
+        style={{color:"#1a2e35",height: '100%', width: '100%',whiteSpace: 'pre-line'}}
         sx={{
           ".MuiTablePagination-displayedRows":{
             color:"#1a2e35",
-            fontWeight:'700 !important'
           },
           ".MuiTablePagination-toolbar":{
             color:"#1a2e35",
-            fontWeight:'700 !important'
+            
           },
           ".MuiTablePagination-actions":{
             color:"#1a2e35",
-            fontWeight:700
+           
           },
           ".css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root":{
             color:"#1a2e35",
-            fontWeight:700
+            
           },
           ".css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root.Mui-checked":{
             color:"#1a2e35",
-            fontWeight:700
+            
           },
           ".MuiSvgIcon-root":{
             color:"#1a2e35",
-            fontWeight:700
+            
           },
           '@media print': {
-            '.MuiDataGrid-main': { color: '#1a2e35',fontSize:'30px',width:'100% ',fontWeight:700},
+            '.MuiDataGrid-main': { color: '#1a2e35',fontSize:'30px',width:'100% '},
             '.MuiDataGrid-columnHeaders':{fontSize:'20px'},
             '.MuiDataGrid-cellContent':{fontSize:'20px'}
           }
