@@ -119,11 +119,11 @@ const Members = ({
       {
         field: 'PhotoURL',
         headerName: 'Photo',
-        width: 100,
-        height:200,
+        width:"150",
+        height:"200",
         editable: true,
         fontSize:"40vw",
-        renderCell: (params) => <img src={params.value} alt="avt" height="80" width="100"/>, // renderCell will render the component
+        renderCell: (params) => <img src={params.value} alt="avt" height="120" width="100"/>, // renderCell will render the component
       }
     ];
     
@@ -233,7 +233,7 @@ const Members = ({
       
       <DataGrid
         className={classes.mainDivStyle}
-        rowHeight={80}
+        rowHeight={100}
         columns={columns} 
         rows={members}
         getRowId={(r) => r.id}
@@ -266,9 +266,10 @@ const Members = ({
             color:"#06283D"
           },
           '@media print': {
+            
             '.MuiDataGrid-main': { color: '#06283D',fontSize:'30px',width:'100%'},
             '.MuiDataGrid-columnHeaders':{fontSize:'20px'},
-            '.MuiDataGrid-cellContent':{fontSize:'20px'}
+            '.MuiDataGrid-cellContent':{fontSize:'15px'}
           }
         }}
       />
