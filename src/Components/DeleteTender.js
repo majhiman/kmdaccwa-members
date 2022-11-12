@@ -1,4 +1,6 @@
 import React from 'react'
+import { doc, updateDoc } from 'firebase/firestore';
+import { db } from '../firebase-config';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -24,19 +26,18 @@ const useStyles = makeStyles(theme => ({
   }));
 
 
-const DeleteTender = ({deleteOpen,setDeleteOpen,addCheck,setAddCheck,id,handleDeleteSnackbar}) => {
+const DeleteTender = ({deleteOpen,setDeleteOpen,checkTender,setCheckTender,id}) => {
     const handleClose = () => {
         setDeleteOpen(false);
       };
         const deleteUser = async (e) =>{
             const newFields = {IsDeleted:1}
             for (let i = 0; i< id.length; i++){
-                //const memberDoc = doc(db,"members",id[i]);
-                //await updateDoc(memberDoc,newFields)
+                const memberDoc = doc(db,"tenders",id[i]);
+                await updateDoc(memberDoc,newFields)
             }
-            setAddCheck(addCheck+1);
+            setCheckTender(checkTender+1);
             handleClose();
-            handleDeleteSnackbar()
         }
         const classes = useStyles();
   return (

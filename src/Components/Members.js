@@ -10,15 +10,13 @@ import ReplayIcon from '@mui/icons-material/Replay';
 import DeleteMembers from './DeleteMembers';
 import EditMembers from './EditMembers';
 import { Typography } from '@mui/material';
-import Abstract from "../Assets/Abstract.jpg";
+import Back from "../Assets/Back.jpeg";
 import { useNavigate, /* other hooks */ } from 'react-router-dom'; 
 
 
 
+
 const useStyles = makeStyles(theme => ({
-  topheader:{
-    marginLeft:"1% !important",
-  },
   buttongroup:{
     marginLeft:"1%",
     marginTop:"1%"
@@ -37,13 +35,14 @@ const useStyles = makeStyles(theme => ({
     marginTop:"1% !important",
     textDecoration:"bold, italic !important"
   },
-  Abstract:{
-    backgroundImage:`url(${Abstract})`,
+  Back:{
+    backgroundImage:`url(${Back})`,
     backgroundRepeat:"no-repeat center center fixed",
     height:"100%",
     width:"100%",
     backgroundSize:"cover",
   },
+
   text:{
     color:"#000000",
     fontFamily: 'Times-Bold',  
@@ -194,9 +193,8 @@ const Members = ({
  
     
   return (
-    <div className={classes.Abstract} >
-      <h4 className={classes.topheader}>Members Details</h4>
-      <Typography className={classes.topheader}>Total Members :- {members.length}</Typography>
+    <div className={classes.Back} >
+       <span className="bold"></span>
       <ButtonGroup variant="contained" className={classes.buttongroup}>
         <Button className={classes.button} onClick={handleClickOpen}>Add</Button>
         <AddMembers 
