@@ -8,7 +8,8 @@ import ReplayIcon from '@mui/icons-material/Replay';
 import { useNavigate } from "react-router-dom";
 import { DataGrid, GridToolbarContainer, GridToolbarExport } from '@mui/x-data-grid';
 import Back from '../Assets/Back.jpeg';
-import AddTender from './components/AddTender';
+import AddTender from './AddTender';
+import DeleteTender from './DeleteTender';
 
 const useStyles = makeStyles(theme => ({
   buttongroup:{
@@ -42,7 +43,33 @@ const useStyles = makeStyles(theme => ({
 
 
 
+
+
 const Tender = ({authorised,setCheckLogin,members}) => {
+  //=================Add Dialog ==================
+  const [addOpen, setAddOpen] = React.useState(false);
+  const handleClickOpen = () => {
+    setAddOpen(true);
+  };
+
+  //=================Delete Dialog ==================
+  const [deleteOpen, setDeleteOpen] = React.useState(false);
+  const handleDClickOpen = () => {
+   // if(id.length>0)
+      setDeleteOpen(true);
+   
+      //handleWarningSnackbar();
+  };
+
+  //=================Delete Dialog ==================
+  const [editOpen, setEditOpen] = React.useState(false);
+  const handleEClickOpen = () => {
+    //if(id.length>0 && id.length<=1)
+      setEditOpen(true);
+    
+  
+      //handleWarningSnackbar()
+  };
   const navigate = useNavigate();
     const handleMember = () =>{
       navigate("/admin")
@@ -113,30 +140,7 @@ const Tender = ({authorised,setCheckLogin,members}) => {
     ];
     console.log(members)
 
-    //=================Add Dialog ==================
-    const [addOpen, setAddOpen] = React.useState(false);
-    const handleClickOpen = () => {
-      setAddOpen(true);
-    };
-
-    //=================Delete Dialog ==================
-    const [deleteOpen, setDeleteOpen] = React.useState(false);
-    const handleDClickOpen = () => {
-      if(id.length>0)
-        setDeleteOpen(true);
-      else
-        handleWarningSnackbar();
-    };
-
-    //=================Delete Dialog ==================
-    const [editOpen, setEditOpen] = React.useState(false);
-    const handleEClickOpen = () => {
-      if(id.length>0 && id.length<=1)
-        setEditOpen(true);
-      
-      else 
-        handleWarningSnackbar()
-    };
+    
 
   return (
     <div className={classes.Back}>
@@ -146,9 +150,9 @@ const Tender = ({authorised,setCheckLogin,members}) => {
           <AddTender
           addOpen={addOpen} 
           setAddOpen={setAddOpen} 
-          addCheck={addCheck} 
-          setAddCheck={setAddCheck} 
-          handleAddSnackbar={handleAddSnackbar}
+          //addCheck={addCheck} 
+          //setAddCheck={setAddCheck} 
+          //handleAddSnackbar={handleAddSnackbar}
         />
           <Button className={classes.button}>Update</Button>
           <Button className={classes.button}>Delete</Button>
