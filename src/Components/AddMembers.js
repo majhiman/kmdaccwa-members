@@ -10,10 +10,13 @@ import Button from '@mui/material/Button';
 import { makeStyles } from '@mui/styles';
 import TextField from '@mui/material/TextField';
 
+
 const useStyles = makeStyles(theme => ({
   dialogBox:{
-    backgroundImage:"radial-gradient(#256D85 ,#256D85)",
-    color:"#DFF6FF"
+    backgroundImage:"radial-gradient(#cb5041 ,#cb5041)",
+    color:"#DFF6FF",
+    fontWeight:'700 !important',
+    /*fontSize:'150px !impotant'*/
   },
   text:{
     color:"#DFF6FF",
@@ -22,20 +25,24 @@ const useStyles = makeStyles(theme => ({
   textField:{
     marginLeft:"2% !important",
     marginTop:"2% !important",
-    color:"#DFF6FF"
+    borderColor:"#ff735c !important"
+    //color:"#ff735c "
   },
   textAddress:{
     marginTop:"2% !important",
-    color:"#DFF6FF"
+    color:"#ff735c"
   },
   uploadButton:{
     marginRight:"35% !important",
-    backgroundColor:"#06283D !important",
-    color:"#47B5FF !important"
+    backgroundColor:"#831707 !important",
+    color:"#DFF6FF !important"
   },
   button:{
-    backgroundColor:"#06283D !important",
-    color:"#47B5FF !important"
+    backgroundColor:"#831707 !important",
+    color:"#DFF6FF !important"
+  },
+  '& .MuiInputBase-input ':{
+    color: "#ff735c !important"
   }
 }));
 

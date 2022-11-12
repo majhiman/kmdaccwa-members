@@ -1,5 +1,4 @@
-import { doc, updateDoc } from 'firebase/firestore';
-import { db } from '../firebase-config';
+import React from 'react'
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -24,21 +23,22 @@ const useStyles = makeStyles(theme => ({
     }
   }));
 
-const DeleteMembers = ({deleteOpen,setDeleteOpen,addCheck,setAddCheck,id,handleDeleteSnackbar}) => {
+
+const DeleteTender = ({deleteOpen,setDeleteOpen,addCheck,setAddCheck,id,handleDeleteSnackbar}) => {
     const handleClose = () => {
         setDeleteOpen(false);
       };
-    const deleteUser = async (e) =>{
-        const newFields = {IsDeleted:1}
-        for (let i = 0; i< id.length; i++){
-            const memberDoc = doc(db,"members",id[i]);
-            await updateDoc(memberDoc,newFields)
+        const deleteUser = async (e) =>{
+            const newFields = {IsDeleted:1}
+            for (let i = 0; i< id.length; i++){
+                //const memberDoc = doc(db,"members",id[i]);
+                //await updateDoc(memberDoc,newFields)
+            }
+            setAddCheck(addCheck+1);
+            handleClose();
+            handleDeleteSnackbar()
         }
-        setAddCheck(addCheck+1);
-        handleClose();
-        handleDeleteSnackbar()
-    }
-    const classes = useStyles();
+        const classes = useStyles();
   return (
     <div>
         <Dialog
@@ -49,11 +49,11 @@ const DeleteMembers = ({deleteOpen,setDeleteOpen,addCheck,setAddCheck,id,handleD
         PaperProps={{ sx: { width: "50vw", height: "15vw" } }}     
       >
         <DialogTitle id="alert-dialog-title" className={classes.dialogBox}>
-          {"Delete Members"}
+          {"Delete Tenders"}
         </DialogTitle>
         <DialogContent className={classes.dialogBox}>
         <Typography variant="subtitle1" component="div">
-            Are you sure you want to delete the records
+            Are you sure you want to delete the Tender records
         </Typography>     
         </DialogContent>
         <DialogActions className={classes.dialogBox}>
@@ -67,4 +67,4 @@ const DeleteMembers = ({deleteOpen,setDeleteOpen,addCheck,setAddCheck,id,handleD
   )
 }
 
-export default DeleteMembers
+export default DeleteTender

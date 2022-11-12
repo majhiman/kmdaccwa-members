@@ -11,7 +11,9 @@ import DeleteMembers from './DeleteMembers';
 import EditMembers from './EditMembers';
 import { Typography } from '@mui/material';
 import Abstract from "../Assets/Abstract.jpg";
-import { useNavigate } from "react-router-dom";
+import { ImportantDevices } from '@mui/icons-material';
+import { useNavigate, /* other hooks */ } from 'react-router-dom'; 
+
 
 
 const useStyles = makeStyles(theme => ({
@@ -20,8 +22,10 @@ const useStyles = makeStyles(theme => ({
     marginTop:"1%"
   },
   button:{
-    backgroundColor:"#06283D !important",
-    color:"#DFF6FF",
+    backgroundColor:"#213d44 !important",
+    color:"#f17561 !important",
+    fontWeight: 'bold !important' ,
+
   },  
   buttonRight:{
     backgroundColor:"#06283D !important",
@@ -29,7 +33,7 @@ const useStyles = makeStyles(theme => ({
     float:"right",
     marginRight:"1% !important",
     marginTop:"1% !important",
-    textDecoration:"none !important"
+    textDecoration:"bold, italic !important"
   },
   Abstract:{
     backgroundImage:`url(${Abstract})`,
@@ -40,11 +44,11 @@ const useStyles = makeStyles(theme => ({
   },
 
   text:{
-    color:"#1c2f36",
-    fontFamily:"Times New Roman"
+    color:"#000000",
+    fontFamily: 'Times-Bold',  
   },
   mainDivStyle:{
-    marginTop:"1%"
+    marginTop:"1%",
   }
 }));
 
@@ -190,8 +194,7 @@ const Members = ({
     
   return (
     <div className={classes.Abstract} >
-      <h3 className={classes.buttongroup}>Members Details</h3>
-      <h4 className={classes.buttongroup}>Total Members :- {members.length}</h4>
+       <span className="bold"></span>
       <ButtonGroup variant="contained" className={classes.buttongroup}>
         <Button className={classes.button} onClick={handleClickOpen}>Add</Button>
         <AddMembers 
@@ -245,28 +248,32 @@ const Members = ({
           itm => handleSl_no(itm)           
         }
         components={{ Toolbar: CustomToolbar }}
-        style={{color:"#06283D",height: '100%', width: '100%',whiteSpace: 'pre-line'}}
+        style={{color:"#1a2e35",height: '100%', width: '100%',whiteSpace: 'pre-line'}}
         sx={{
           ".MuiTablePagination-displayedRows":{
-            color:"#06283D"
+            color:"#1a2e35",
           },
           ".MuiTablePagination-toolbar":{
-            color:"#06283D"
+            color:"#1a2e35",
+            
           },
           ".MuiTablePagination-actions":{
-            color:"#06283D"
+            color:"#1a2e35",
+           
           },
           ".css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root":{
-            color:"#06283D"
+            color:"#1a2e35",
+            
           },
           ".css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root.Mui-checked":{
-            color:"#06283D"
+            color:"#1a2e35",
+            
           },
           ".MuiSvgIcon-root":{
-            color:"#06283D"
+            color:"#1a2e35",
+            
           },
           '@media print': {
-            
             '.MuiDataGrid-main': { color: '#06283D',fontSize:'30px',width:'100%'},
             '.MuiDataGrid-columnHeaders':{fontSize:'20px'},
             '.MuiDataGrid-cellContent':{fontSize:'15px'}
