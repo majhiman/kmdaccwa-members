@@ -10,6 +10,7 @@ import ReplayIcon from '@mui/icons-material/Replay';
 import { useNavigate } from "react-router-dom";
 import { DataGrid, GridToolbarContainer, GridToolbarExport } from '@mui/x-data-grid';
 import AddTender from './AddTender';
+import DeleteTender from './DeleteTender';
 
 const useStyles = makeStyles(theme => ({
   headertext:{
@@ -51,6 +52,11 @@ const Tender = ({authorised,setCheckLogin}) => {
     setId(dataGridSl_no)
   }
 
+  //==========Refresh=====
+  const handleRefresh = () =>{
+    setCheckTender(checkTender+1)
+  }
+
   useEffect(()=>{
     const getTenders = async () =>{
         const data = await getDocs(q);
@@ -70,6 +76,13 @@ const Tender = ({authorised,setCheckLogin}) => {
   const handleClickOpen = () => {
     setAddOpen(true);
   };
+
+  //=================Delete Dialog ==================
+  const [deleteOpen, setDeleteOpen] = React.useState(false);
+  const handleDClickOpen = () => {
+    setDeleteOpen(true);
+  };
+
     const handleMember = () =>{
       navigate("/admin")
     }
@@ -153,15 +166,23 @@ const Tender = ({authorised,setCheckLogin}) => {
         <ButtonGroup variant="contained" className={classes.buttongroup}>
           <Button className={classes.button} onClick={handleClickOpen}>Add</Button>
           <AddTender
-          addOpen={addOpen} 
-          setAddOpen={setAddOpen}
-          checkTender={checkTender}
-          setCheckTender={setCheckTender}
-        />
+            addOpen={addOpen} 
+            setAddOpen={setAddOpen}
+            checkTender={checkTender}
+            setCheckTender={setCheckTender}
+          />
 
           <Button className={classes.button}>Update</Button>
-          <Button className={classes.button}>Delete</Button>
-          <Button className={classes.button}><ReplayIcon/></Button>
+          <Button className={classes.button} onClick={handleDClickOpen}>Delete</Button>
+          <DeleteTender
+            deleteOpen={deleteOpen}
+            setDeleteOpen={setDeleteOpen}
+            checkTender={checkTender}
+            setCheckTender={setCheckTender}
+            id={id}
+          />
+
+          <Button className={classes.button} onClick={handleRefresh}><ReplayIcon/></Button>
         </ButtonGroup>
 
         <Button className={classes.buttonRight} onClick={handleMember}>Members Details</Button>
