@@ -45,6 +45,12 @@ const Tender = ({authorised,setCheckLogin}) => {
   const tenderCollectionRef = collection(db, "tenders");
   const q = query(tenderCollectionRef,where("IsDeleted","==",0))
 
+  //====handleSl_no=========
+  const [id,setId] = useState([])
+  const handleSl_no = (dataGridSl_no) =>{
+    setId(dataGridSl_no)
+  }
+
   useEffect(()=>{
     const getTenders = async () =>{
         const data = await getDocs(q);
@@ -110,28 +116,28 @@ const Tender = ({authorised,setCheckLogin}) => {
         field: 'TenderAmount',
         headerName: 'Tender Amount', 
         height:200,
-        width: 250,
+        width: 150,
         align: "left",
       },
       { 
         field: 'FinalcialYear',
         headerName: 'Finalcial Year', 
         height:200,
-        width: 250,
+        width: 150,
         align: "left",
       },
       { 
         field: 'Rate',
         headerName: 'Rate', 
         height:200,
-        width: 200,
+        width: 100,
         align: "left"
       },
-      { field: 'Percentage', headerName: '0.50%', height:200,width: 400,align: "left" },  
+      { field: 'Percentage', headerName: '0.50%', height:200,width: 150,align: "left" },  
       {
         field: 'ReceiptNo',
         headerName: 'Receipt No',
-        width: 100,
+        width: 250,
         height:200,
         editable: true,
         fontSize:"40vw"
@@ -169,10 +175,10 @@ const Tender = ({authorised,setCheckLogin}) => {
         rowsPerPageOptions={[7,10,25,50,100]}
         autoHeight
         checkboxSelection
-        //onSelectionModelChange={
+        onSelectionModelChange={
           //itm => console.log(itm)
-          //itm => handleSl_no(itm)           
-        //}
+          itm => handleSl_no(itm)           
+        }
         components={{ Toolbar: CustomToolbar }}
         style={{color:"#06283D",height: '100%', width: '100%',whiteSpace: 'pre-line'}}
         sx={{
