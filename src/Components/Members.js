@@ -16,6 +16,9 @@ import { useNavigate, /* other hooks */ } from 'react-router-dom';
 
 
 const useStyles = makeStyles(theme => ({
+  topheader:{
+    marginLeft:"1% !important",
+  },
   buttongroup:{
     marginLeft:"1%",
     marginTop:"1%"
@@ -41,7 +44,6 @@ const useStyles = makeStyles(theme => ({
     width:"100%",
     backgroundSize:"cover",
   },
-
   text:{
     color:"#000000",
     fontFamily: 'Times-Bold',  
@@ -193,7 +195,8 @@ const Members = ({
     
   return (
     <div className={classes.Abstract} >
-       <span className="bold"></span>
+      <h4 className={classes.topheader}>Members Details</h4>
+      <Typography className={classes.topheader}>Total Members :- {members.length}</Typography>
       <ButtonGroup variant="contained" className={classes.buttongroup}>
         <Button className={classes.button} onClick={handleClickOpen}>Add</Button>
         <AddMembers 

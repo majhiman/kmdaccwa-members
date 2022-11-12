@@ -1,4 +1,6 @@
-import React from 'react';
+import React, {useEffect,useState} from 'react';
+import { db } from '../firebase-config';
+import {collection, getDocs, where, query, addDoc} from "firebase/firestore"
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -6,6 +8,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Button from '@mui/material/Button';
 import { makeStyles } from '@mui/styles';
 import TextField from '@mui/material/TextField';
+import Autocomplete from '@mui/material/Autocomplete';
 
 
 
@@ -22,13 +25,12 @@ const useStyles = makeStyles(theme => ({
     },
     textField:{
       marginLeft:"2% !important",
-      marginTop:"2% !important",
+      marginTop:"5% !important",
       borderColor:"#ff735c !important"
       //color:"#ff735c "
     },
-    textAddress:{
-      marginTop:"2% !important",
-      color:"#ff735c"
+    companyName:{
+      marginLeft:"2% !important",
     },
     uploadButton:{
       marginRight:"35% !important",
@@ -51,6 +53,49 @@ const AddTender = ({addOpen,setAddOpen}) => {
         setAddOpen(false);
       };  
     
+    const [members,setMembers] = useState([]);
+    const membersCollectionRef = collection(db, "members");
+    const q = query(membersCollectionRef,where("IsDeleted","==",0))
+    const [tenderValues,setTenderValues] = useState({
+      CompanyName:"",
+      TenderNo:"",
+      TenderAmount:"",
+      FinalcialYear:"",
+      Rate:"",
+      percengate:"",
+      ReceiptNo:""
+    })
+
+    useEffect(()=>{
+      const getMembers = async () =>{
+          const data = await getDocs(q);
+          console.log(data)
+          setMembers(data.docs.map((doc)=>({
+            ...doc.data(),
+            id:doc.id,
+          })));            
+      }
+      getMembers()
+      
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[])
+
+  const changeAddHandler = e =>{
+    e.preventDefault();
+    setTenderValues({
+      ...tenderValues,
+      [e.target.name]:e.target.value
+    })
+  }
+
+  const tenderCollectionRef = collection(db, "tenders")
+  const createTenders = () =>{
+    /*
+    addDoc(tenderCollectionRef,{
+      CompanyName:
+    })*/
+    console.log(tenderValues)
+  }
 
     
  const classes = useStyles();
@@ -62,24 +107,30 @@ const AddTender = ({addOpen,setAddOpen}) => {
         onClose={handleClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"   
-        PaperProps={{ sx: { width: "70vw", height: "20vw" } }}     
+        PaperProps={{ sx: { width: "70vw", height: "30vw" } }}     
       >
         <DialogTitle id="alert-dialog-title" className={classes.dialogBox}>
           {"Add New Members"}
         </DialogTitle>
         <DialogContent className={classes.dialogBox}>
-          
-          <TextField 
-            id="outlined-basic" 
-            label="Company Name" 
-            variant="outlined" 
-            size="small" 
-            name="CompanyName"
-            className={classes.textField} 
-           // value={memberValues.CompanyName} 
-           // onChange={changeAddHandler}
-            required
+
+          <Autocomplete
+            className={classes.companyName}
+            disablePortal
+            id="combo-box-demo"
+            options={members}
+            getOptionLabel={option => option.CompanyName}
+            sx={{ width: 300 }}
+            renderInput={(params) => <TextField 
+              {...params} 
+              label="CompanyName" 
+              name="CompanyName"
+              value={tenderValues.CompanyName}
+              onChange={changeAddHandler}
+              />}
           />
+          
+          
           <TextField 
             id="outlined-basic" 
             label="Tender No." 
@@ -87,10 +138,11 @@ const AddTender = ({addOpen,setAddOpen}) => {
             size="small" 
             className={classes.textField} 
             name="TenderNo"
-            //value={memberValues.ProprietorName1} 
-            //onChange={changeAddHandler}
+            value={tenderValues.TenderNo} 
+            onChange={changeAddHandler}
             required
           />
+
           <TextField 
             id="outlined-basic" 
             label="Tender Amount" 
@@ -98,8 +150,20 @@ const AddTender = ({addOpen,setAddOpen}) => {
             size="small" 
             className={classes.textField} 
             name="TenderAmount"
-            //value={memberValues.ProprietorName2} 
-            //onChange={changeAddHandler}
+            value={tenderValues.TenderAmount} 
+            onChange={changeAddHandler}
+            required
+          />
+
+          <TextField 
+            id="outlined-basic" 
+            label="Finalcial Year" 
+            variant="outlined" 
+            size="small" 
+            className={classes.textField} 
+            name="FinalcialYear"
+            value={tenderValues.FinalcialYear} 
+            onChange={changeAddHandler}
             required
           />
 
@@ -110,8 +174,8 @@ const AddTender = ({addOpen,setAddOpen}) => {
             size="small" 
             className={classes.textField} 
             name="Rate"
-           // value={memberValues.ProprietorName3} 
-           // onChange={changeAddHandler}
+            value={tenderValues.Rate} 
+            onChange={changeAddHandler}
            required
           />
 
@@ -122,15 +186,15 @@ const AddTender = ({addOpen,setAddOpen}) => {
             size="small" 
             className={classes.textField} 
             name="ReceiptNo"
-           // value={memberValues.MobileNumber} 
-            //onChange={changeAddHandler}
+            value={tenderValues.ReciptNo} 
+            onChange={changeAddHandler}
             required
           />
 
         </DialogContent>
         <DialogActions className={classes.dialogBox}>
           <Button onClick={handleClose} className={classes.button}>Cancel</Button>
-         <Button autoFocus className={classes.button}>
+         <Button autoFocus className={classes.button} onClick={createTenders}>
             Add Data
           </Button>
         </DialogActions>
